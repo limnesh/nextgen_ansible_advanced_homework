@@ -5,11 +5,9 @@
     regexp: '.*appdb1$'
     line: "{{ groups.appdbs[0] }} appdb1"
     state: present
- 
-
-- name: TEst
+- name: Install tomcat
   roles:
-  - tomcat
+   - tomcat
 - name: Copy index
   template: 
     src: index.html.j2 
