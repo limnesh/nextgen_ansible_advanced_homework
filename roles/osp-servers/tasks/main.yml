@@ -6,7 +6,7 @@
   loop: "{{ osp_servers }}"
 
 - name: Search Image  
-  os_server:
+  os_image_facts:
     cloud: openstack
     image: rhel-guest
   register: openstack_image
