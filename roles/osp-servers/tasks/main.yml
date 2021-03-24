@@ -5,6 +5,14 @@
     msg: "{{ item.name }}"
   loop: "{{ osp_servers }}"
 
+- name: Search Image  
+  os_server:
+    cloud: openstack
+    image: rhel-guest
+  register: openstack_image
+- name: Show openstack facts
+  debug:
+    var: openstack_image
 - name: Create instances  
   os_server:
     cloud: openstack
