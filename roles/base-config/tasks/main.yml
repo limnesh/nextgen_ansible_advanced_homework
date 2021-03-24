@@ -15,12 +15,12 @@
     owner: root
     group: wheel
     mode: '0644'
-- name: install base tools and packages
-  package:
-    name: "{{ __package }}"
-    state: present
-  loop: 
+#- name: install base tools and packages
+#  package:
+#    name: "{{ __package }}"
+#    state: present
+#  loop: 
 #    - "{{ postgres_rhel7_repo }}"
 #    - "{{ postgres_library }}"
-  loop_control:
-    loop_var: __package
+#  loop_control:
+#    loop_var: __package
