@@ -25,7 +25,6 @@
     wait: yes
     nics:
       - net-name: int_network
-      - net-name: ext_network
     meta: "{{ item.meta }}"
     userdata: |
       #!/bin/bash
