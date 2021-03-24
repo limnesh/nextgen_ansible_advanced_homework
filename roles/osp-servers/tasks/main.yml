@@ -1,5 +1,4 @@
 ---
-
 # tasks file for osp.servers
 - name: List instance info
   debug:
@@ -28,3 +27,10 @@
   async: 900
   poll: 0
   register: r_instances
+  
+- name: Wait for async OSP instance creation to complete
+  async_status: "jid={{ item.ansible_job_id }}"
+  register: r_wait
+  until: r_wait.finished
+  retries: 900
+  loop: "{{ r_instances.results }}"
