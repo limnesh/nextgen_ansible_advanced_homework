@@ -9,16 +9,16 @@
 - name: Create instances  
   os_server:
     cloud: openstack
-    name: "{{ item.name }}"
-    image: "{{ item.image }}"
-    key_name: "{{ item.key_name }}"
-    flavor: "{{ item.flavor }}"
-    security_groups: "{{ item.security_group }}"
+    name: "{{ item.0.name }}"
+    image: "{{ item.0.image }}"
+    key_name: "{{ item.0.key_name }}"
+    flavor: "{{ item.0.flavor }}"
+    security_groups: "{{ item.0.security_group }}"
     delete_fip: yes
     wait: no
     nics:
       - net-name: int_network
-    meta: "{{ item.meta }}"
+    meta: "{{ item.0.meta }}"
     userdata: |
       #!/bin/bash
       curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
