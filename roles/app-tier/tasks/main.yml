@@ -7,12 +7,3 @@
     state: present
  
 
-- name: TEst
-  roles:
-  - tomcat
-- name: Copy index
-  template: 
-    src: index.html.j2 
-    dest: "{{ tomcat_web_root }}/index.html"
-  notify: restart tomcat
-
