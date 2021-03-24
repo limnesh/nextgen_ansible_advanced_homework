@@ -4,4 +4,4 @@
 - name: Create instances
   debug:
     msg: "{{ item }}"
-  loop: osp_servers
+  loop: "{{ osp_servers }}"
