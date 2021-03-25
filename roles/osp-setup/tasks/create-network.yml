@@ -33,8 +33,7 @@
     name: "{{ item.value.name }}"
     network: "{{ item.value.network }}"
     external_fixed_ips:
-      - subnet: ext_subnet
-#        ip: 192.0.2.254
+      - {subnet: ext_subnet,ip: 192.0.2.254}
     interfaces:
       - "{{ item.value.interfaces }}"
   with_dict: "{{ osp_router }}"
