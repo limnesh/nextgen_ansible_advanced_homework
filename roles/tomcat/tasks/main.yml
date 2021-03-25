@@ -4,7 +4,9 @@
 #    name: java
 #    name: java-1.7.0-openjdk
 #    state: present
-
+- name: print var
+  debug:
+    var: tomcat_base
 - name: add group "tomcat"
   group: 
     name: tomcat
@@ -81,4 +83,4 @@
 
 - name: wait for tomcat to start
   wait_for: 
-    port: "{{http_port}}"
+    port: "{{ http_port }}"
