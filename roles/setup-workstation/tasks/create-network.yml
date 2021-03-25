@@ -4,9 +4,6 @@
     state: "{{ item.value.state }}"
     name: "{{ item.value.network_name }}"
     external: "{{ item.value.external }}"
-    admin_state_up: "{{ item.value.admin_state }}"
-    provider_network_type: "{{ item.value.provider_network_type | default(omit) }}"
-    provider_physical_network: "{{ item.value.provider_physical_network | default(omit) }}"
   with_dict: "{{ osp_networks }}"
 
 - name: Configuration of Subnets for Public and Private SubNets
@@ -20,10 +17,10 @@
       - 8.8.8.7
       - 8.8.8.8
     host_routes:
-      - destination: 172.16.0.0/24
-        nexthop: 172.16.0.1
       - destination: 0.0.0.0/0
-        nexthop: 192.0.2.254
+        nexthop: 10.10.10.0
+      - destination: 192.168.0.0/24
+        nexthop: 192.168.0.0
   with_dict: "{{ osp_networks }}"
 
 - name: Create Router
