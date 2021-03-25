@@ -25,8 +25,8 @@
       - 8.8.8.8
       - 8.8.8.7
     host_routes:
-      - destination: 192.168.0.0/24
-        nexthop: 192.168.0.1
+      - destination: 172.16.0.0/24
+        nexthop: 172.16.0.1
       - destination: 0.0.0.0/0
         nexthop: 192.168.0.254
   with_dict: "{{ osp_networks }}"
