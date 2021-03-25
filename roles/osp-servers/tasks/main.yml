@@ -49,7 +49,7 @@
 - name: Add floating IP to instances
   os_floating_ip:
     cloud: openstack
-    state: "{{ item.state }}"
+    state: present
     reuse: yes
     server: "{{ item.name }}"
     network: ext_network
