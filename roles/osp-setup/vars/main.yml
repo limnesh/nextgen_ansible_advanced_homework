@@ -37,3 +37,4 @@ osp_router:
     name: router
     network: ext_network
     interfaces: int_subnet
+    dns_nameservers: 8.8.8.8
