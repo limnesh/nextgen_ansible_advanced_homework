@@ -49,9 +49,9 @@
 - name: Add floating IP to instances
   os_floating_ip:
     cloud: openstack
-    state: "{{ item.value.state }}"
+    state: "{{ item.state }}"
     reuse: yes
-    server: "{{ item.value.name }}"
+    server: "{{ item.name }}"
     network: ext_network
     wait: true
     timeout: 200
