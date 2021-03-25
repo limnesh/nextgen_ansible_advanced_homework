@@ -16,8 +16,8 @@
 - name: yum clean
   shell: yum clean all
   
-- name: install base tools and packages
-  yum:
-    name:
-      - python-pip
-    state: present
+#- name: install base tools and packages
+#  yum:
+#    name:
+#      - python-pip
+#    state: present
