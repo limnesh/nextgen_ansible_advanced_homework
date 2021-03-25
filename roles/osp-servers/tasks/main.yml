@@ -46,13 +46,13 @@
   
   
 
-- name: Add floating IP to instances
-  os_floating_ip:
-    cloud: openstack
-    state: present
-    reuse: yes
-    server: "{{ item.name }}"
-    network: ext_network
-    wait: true
-    timeout: 300
-  with_dict: "{{ osp_servers }}"
+#- name: Add floating IP to instances
+#  os_floating_ip:
+#    cloud: openstack
+#    state: present
+#    reuse: yes
+#    server: "{{ item.name }}"
+#    network: ext_network
+#    wait: true
+#    timeout: 300
+#  with_dict: "{{ osp_servers }}"
