@@ -25,8 +25,8 @@ osp_servers:
   flavor: m1.medium
   security_group: apps
   meta: "group=apps,deployment_name=QA"
-- db:
-  name: db
+- appdb:
+  name: appdb
   state: present
   image: rhel-guest
   key_name: ansible_ssh
