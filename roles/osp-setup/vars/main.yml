@@ -9,11 +9,11 @@ osp_networks:
     cidr_network: "192.0.2.0/24"
     state: present
     external: true
-    gateway_ip: 192.0.2.254
+    gateway_ip: 192.0.2.171
     admin_state: yes
     ip_version: 4
     enable_dhcp: no
-    allocation_pool_start: 192.0.2.150
+    allocation_pool_start: 192.0.2.175
     allocation_pool_end: 192.0.2.200
 
 
