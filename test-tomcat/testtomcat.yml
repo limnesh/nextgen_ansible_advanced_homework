@@ -1,0 +1,86 @@
+---
+- name: Deploy, configure, and populate flask repo and virtualenv
+  hosts: all
+  gather_facts: false
+  become: true
+#  ansible_ssh_private_key_file: "mykey.pem"
+#  ansible_user=ec2-user
+  vars:
+   payload:          tomcat
+   tomcat_web_root:  /usr/share/tomcat/webapps/ROOT
+   tomcat_base: /usr/share/tomcat
+   http_port: 80
+   https_port: 443
+   admin_username: admin
+   admin_password: adminsecret
+  tasks:
+    - name: add group "tomcat"
+      group:
+        name: tomcat
+        state: present
+
+    - name: add user "tomcat"
+      user:
+        name: tomcat
+        group: tomcat
+        home: "{{ tomcat_base }}"
+        createhome: no
+      become: true
+      become_method: sudo
+
+    - name: Download Tomcat
+      get_url:
+        url: http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.tar.gz
+        dest: /opt/apache-tomcat-7.0.61.tar.gz
+
+    - name: Extract archive
+      command: chdir=/usr/share /bin/tar xvf /opt/apache-tomcat-7.0.61.tar.gz -C /opt/ creates=/opt/apache-tomcat-7.0.61
+
+    - name: Symlink install directory
+      file:
+        src: /opt/apache-tomcat-7.0.61
+        path: "{{ tomcat_base }}"
+        state: link
+
+    - name: Change ownership of Tomcat installation
+      file:
+        path: "{{ tomcat_base }}"
+        owner: tomcat
+        group: tomcat
+        state: directory
+        recurse: yes
+
+    - name: Configure Tomcat server
+      template:
+        src: server.xml.j2
+        dest: "{{ tomcat_base }}/conf/"
+      notify: restart tomcat
+
+    - name: Configure Tomcat users
+      template:
+        src: tomcat-users.xml.j2
+        dest: "{{ tomcat_base }}/conf/"
+      notify: restart tomcat
+
+    - name: Install Tomcat init script
+      copy:
+        src: tomcat-initscript.sh
+        dest: "/etc/init.d/{{ payload }}"
+        mode: 0755
+
+    - name: Start Tomcat
+      service:
+        name: "{{ payload }}"
+        state: started
+        enabled: yes
+
+    - name: wait for tomcat to start
+      wait_for:
+        port: "{{http_port}}"
+
+  handlers:
+  - name: restart tomcat
+    service:
+      name: "{{ payload }}"
+      state: restarted
+
