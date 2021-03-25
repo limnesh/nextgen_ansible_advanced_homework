@@ -6,6 +6,5 @@
   gather_facts: false
   roles:
     - {name: base-config, tags: base-config}
-    - tomcat
     - {name: app-tier, tags: [apps, tomcat]}
 
