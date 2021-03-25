@@ -11,16 +11,13 @@
 - name: enable repos
   template:
     src: repos_template.j2
-    dest: /etc/yum.repos.d/rhel_repos.repo
-    owner: root
-    group: wheel
-    mode: '0644'
-#- name: install base tools and packages
-#  package:
-#    name: "{{ __package }}"
-#    state: present
-#  loop: 
-#    - "{{ postgres_rhel7_repo }}"
-#    - "{{ postgres_library }}"
-#  loop_control:
-#    loop_var: __package
+    dest: /etc/yum.repos.d/apps.repo
+
+- name: yum clean
+  shell: yum clean all
+  
+- name: install base tools and packages
+  yum:
+    name:
+      - python-pip
+    state: present
