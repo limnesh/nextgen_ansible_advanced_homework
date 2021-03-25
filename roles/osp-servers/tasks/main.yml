@@ -5,7 +5,7 @@
     msg: "{{ item.name }}"
   loop: "{{ osp_servers }}"
 
-- name: Search Image  
+- name: Search Image
   os_image_facts:
     cloud: openstack
     image: rhel-guest
@@ -34,26 +34,17 @@
   async: 900
   poll: 0
   register: r_instances
-  ---
-# tasks file for osp.servers
-- name: Create instances in openstack
-  os_server:
-    cloud: openstack
-    name: "{{ item.value.name }}"
-    image: "{{ item.value.image }}"
-    key_name: "{{ item.value.key_name }}"
-    flavor: "{{ item.value.flavor }}"
-    security_groups: "{{ item.value.security_group }}"
-    delete_fip: yes
-    wait: no
-    nics:
-      - net-name: int_network
-    meta: "{{ item.value.meta[0] }}"
-    userdata: |
-      #!/bin/bash
-      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
-      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
-  with_dict: "{{ osp_servers }}"
+ 
+
+
+- name: Wait for async OSP instance creation to complete
+  async_status: "jid={{ item.ansible_job_id }}"
+  register: r_wait
+  until: r_wait.finished
+  retries: 900
+  loop: "{{ r_instances.results }}"
+  
+  
 
 - name: Add floating IP to instances
   os_floating_ip:
@@ -65,9 +56,3 @@
     wait: true
     timeout: 200
   with_dict: "{{ osp_servers }}"
-- name: Wait for async OSP instance creation to complete
-  async_status: "jid={{ item.ansible_job_id }}"
-  register: r_wait
-  until: r_wait.finished
-  retries: 900
-  loop: "{{ r_instances.results }}"
