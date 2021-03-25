@@ -1,0 +1,7 @@
+cat .ssh/openstack.pem
+
+
+sudo -i
+su - cloud-user
+cd
+ansible-playbook test.yml --key-file ~/.ssh/mykey.pem
