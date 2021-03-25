@@ -1,0 +1,44 @@
+---
+# tasks file for osp.servers
+- name: List instance info
+  debug:
+    msg: "{{ item.name }}"
+  loop: "{{ osp_servers }}"
+
+- name: Search Image  
+  os_image_facts:
+    cloud: openstack
+    image: rhel-guest
+  register: openstack_image
+- name: Show openstack facts
+  debug:
+    var: openstack_image
+- name: Create instances  
+  os_server:
+    cloud: openstack
+    name: "{{ item.name }}"
+    image: "{{ item.image }}"
+    key_name: "{{ item.key_name }}"
+    flavor: "{{ item.flavor }}"
+    security_groups: "{{ item.security_group }}"
+    delete_fip: yes
+    wait: yes
+    nics:
+      - net-name: int_network
+      - net-name: ext_network
+    meta: "{{ item.meta }}"
+    userdata: |
+      #!/bin/bash
+      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+  loop: "{{ osp_servers }}"
+  async: 900
+  poll: 0
+  register: r_instances
+  
+- name: Wait for async OSP instance creation to complete
+  async_status: "jid={{ item.ansible_job_id }}"
+  register: r_wait
+  until: r_wait.finished
+  retries: 900
+  loop: "{{ r_instances.results }}"
