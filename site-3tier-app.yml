@@ -1,4 +1,4 @@
 - import_playbook: site-3tier-app-inventory-setup.yml
-- import_playbook: site-3tier-app-database-setup.yml
 - import_playbook: site-3tier-app-application-setup.yml
 - import_playbook: site-3tier-app-loadbalancer-setup.yml
+- import_playbook: site-3tier-app-database-setup.yml
