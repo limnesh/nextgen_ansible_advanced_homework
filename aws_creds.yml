@@ -1,7 +1,6 @@
 - hosts: tag_AnsibleGroup_bastions
-- hosts: localhost
   gather_facts: true
-#  remote_user: devops
+  remote_user: ec2-user
   become: true
   tasks:
   - name: Install required packages 
