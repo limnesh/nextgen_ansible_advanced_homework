@@ -30,7 +30,7 @@ backend app-servers
 {% if hostvars[host]['private_ip_address'] is defined %}
     server app{{loop.index}} {{hostvars[host]['private_ip_address']}}:8080 cookie app{{loop.index}} check
 {% else %}
-    server app{{loop.index}} app{{loop.index}}:8080 cookie app{{loop.index}} check
+    server app{{loop.index}} {{hostvars[host]['inventory_hostname']}}:8080 cookie app{{loop.index}} check
 {% endif %}
     
 #    server app{{loop.index}} {{hostvars[host]['inventory_hostname']}}:8080 cookie app{{loop.index}} check
