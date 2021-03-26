@@ -26,7 +26,7 @@
     register: osp_instance
 
   - debug: var=osp_instance
-
+  - debug: var=openstack_info
 
   - name: Access website
     uri:
