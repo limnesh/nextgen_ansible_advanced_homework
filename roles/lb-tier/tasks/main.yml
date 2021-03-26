@@ -9,9 +9,9 @@
     src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
   notify: restart_haproxy
-- name: Display facts
-  debug: 
-    msg: "{{ hostvars }}"
+#- name: Display facts
+#  debug: 
+#    msg: "{{ hostvars }}"
 - name: Enable Haproxy
   service:
     name: haproxy
