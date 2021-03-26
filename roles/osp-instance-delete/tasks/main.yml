@@ -5,4 +5,5 @@
     cloud: openstack
     name: "{{ item.name }}"
     state: absent
-  loop: "{{ osp_servers }}"
+  with_items: "{{result.openstack_servers}}"
+#  loop: "{{ osp_servers }}"
